@@ -1,0 +1,10 @@
+<?php
+    $isTab = is_array($block['content']);
+    $isHiddenTitle = $block['title_hidden'] && !$isTab;
+?>
+<div class="block-center">
+    <?php if (!$isHiddenTitle) {
+        echo sprintf('<div class="block-center-header">%s</div>', $heading);
+    } ?>
+    <div class="block-center-body"><?php echo $block['content']; ?></div>
+</div>

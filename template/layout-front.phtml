@@ -1,0 +1,324 @@
+<?php
+// Load translation data
+$this->i18nTheme();
+
+//HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+$this->js(array(
+    pi::url('static/js/html5shiv.js') => array(
+        'conditional' => 'lt IE 9'
+    ),
+    pi::url('static/js/respond.min.js') => array(
+        'conditional' => 'lt IE 9'
+    ),
+));
+
+// Load jQuery
+$this->jquery();
+
+// Load Bootstrap css/js and font-awesome
+$this->bootstrap(array(
+    'js/bootstrap.min.js',
+    'font-awesome/css/font-awesome.min.css',
+    'css/bootstrap-theme.min.css'
+));
+
+// Load front.css
+$this->css(array(
+    $this->assetLocale('style.css'),
+    $this->assetTheme('css/front.css'),
+));
+
+// Apple icons
+// Apple icon for iphone
+$this->headLink(array(
+    'rel' => 'apple-touch-icon',
+    'href' => $this->assetTheme('image/touch-icon-iphone.png')
+));
+// Apple icon for ipad
+$this->headLink(array(
+    'rel' => 'apple-touch-icon',
+    'sizes' => '72x72',
+    'href' => $this->assetTheme('image/touch-icon-ipad.png')
+));
+// Apple icon for iphone retina
+$this->headLink(array(
+    'rel' => 'apple-touch-icon',
+    'sizes' => '114x114',
+    'href' => $this->assetTheme('image/touch-icon-iphone-retina.png')
+));
+// Apple icon for ipad retina
+$this->headLink(array(
+    'rel' => 'apple-touch-icon',
+    'sizes' => '114x114',
+    'href' => $this->assetTheme('image/touch-icon-ipad-retina.png')
+));
+
+// Meta http-equiv
+//$this->headMeta('IE=edge', 'X-UA-Compatible', 'http-equiv', array('conditional' => 'IE'));
+
+// Meta Viewport Tag
+$this->headMeta('width=device-width, initial-scale=1.0', 'viewport');
+
+// Dublin Core relation
+/* $this->headLink(array(
+    'rel' => 'DC.relation',
+    'href' => Pi::url('www')),
+    'PREPEND');
+
+// Dublin Core language relation
+$this->headLink(array(
+    'rel' => 'DC.relation',
+    'hreflang' => $locale,
+    'href' => Pi::url('www')),
+    'PREPEND'); */
+
+// Explicitly load favicon
+$this->headLink(array(
+    'rel' => 'shortcut icon',
+    'href' => $this->favicon(),
+));
+
+// Load google analytics code
+$this->ga();
+
+// current module
+$module = Pi::service('module')->current();
+
+// Load nav
+$navigation = $this->nav('front');
+
+// Load blocks
+$blocks               = $this->blocks();
+$blockTemplate        = $this->template('block');
+$blockCenterTemplate  = $this->template('block-center');
+?>
+<!DOCTYPE HTML>
+<html lang="<?php echo $locale; ?>">
+<head>
+<meta charset="<?php echo $charset; ?>">
+<?php echo $this->assemble('headTitle'); ?>
+<?php echo $this->assemble('headMeta'); ?>
+<meta property="dc:title" lang="<?php echo $locale; ?>" content="<?php echo $this->escape($sitename); ?>">
+<meta property="dc:publisher" content="<?php echo $this->escape($sitename); ?>">
+<meta property="dc:subject" lang="<?php echo $locale; ?>" content="<?php echo $this->escape($slogan); ?>">
+<meta property="dc:description" lang="<?php echo $locale; ?>" content="">
+<meta property="dc:type" content="Text">
+<meta property="dc:language" content="<?php echo $locale; ?>">
+<?php echo $this->assemble('headLink'); ?>
+<?php echo $this->assemble('headStyle'); ?>
+<?php echo $this->assemble('headScript'); ?>
+</head>
+<body id="pi-<?php echo $module; ?>" class="pi-locale-<?php echo $locale; ?>">
+    <header id="pi-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div id="pi-header-logo">
+                        <h2><a title="<?php echo _escape($sitename); ?>" href="<?php echo $this->url('home'); ?>"><img src="<?php echo $this->logo(); ?>" alt="<?php echo _escape($sitename); ?>"></a></h2>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div id="pi-header-user-bar" class="pull-left">
+                        <?php echo $this->widget('system-user-bar'); ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div id="pi-header-menu" class="col-md-12">
+                    <nav class="navbar navbar-default">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <i class="fa fa-bars"></i>
+                                </button>
+                            </div>
+                            <div class="navbar-collapse collapse">
+                                <?php echo $navigation->menu()->setUlClass('nav navbar-nav pi-navbar-nav'); ?>
+                                <ul class="nav navbar-nav navbar-left">
+                                    <li><a class="btn btn-default" title="ارسال پیامک" id="show-submit">ارسال پیامک</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="pi-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                <?php echo $this->widget('sms-sms-submit'); ?>
+                </div>
+                <!--[if lt IE 9]>
+                <div class="col-md-12">
+                    div class="alert alert-danger">
+                        <h4>خطا در نمایش وب سایت</h4>
+                        <p>مرورگر اینترنت شما قدیمی است و از تکنولوژی های جدید وب پشتیبانی نمی کند. برای استفاده از این وب سایت مرورگر خود را به روز کنید.</p>
+                        <p>شما میتوانید از مرورگر های <a href="http://www.mozilla.org/en-US/firefox/new/" >فایرفاکس</a> یا <a href="http://www.google.com/chrome">گوگل کروم</a> استفاده نمایید.</p>
+                    </div>
+                </div>
+                <![endif]-->
+            </div>
+        <!-- Flash messenger -->
+        <?php include $this->template('flash-messenger'); ?>
+        <!-- Top head zone -->
+        <?php if (!empty($blocks['0'])) { ?>
+        <div class="pi-zone-0">
+            <?php foreach ($blocks['0'] as $block) {
+                include $blockTemplate;
+            } ?>
+        </div>
+        <?php } ?>
+        <div id="pi-section-main" class="row">
+            <!-- Left zone -->
+            <?php if (!empty($blocks['1'])) { ?>
+            <div class="pi-zone-1 col-md-3">
+                <?php foreach ($blocks['1'] as $block) {
+                    include $blockTemplate;
+                } ?>
+            </div>
+            <?php } ?>
+            <div class="<?php
+                if (isset($blocks['1']) && isset($blocks['8'])) {
+                    echo 'col-md-6';
+                } elseif (isset($blocks['1']) || isset($blocks['8'])) {
+                    echo 'col-md-9';
+                } else {
+                    echo 'col-md-12';
+                }
+                ?>">
+                <!-- Center top zone -->
+                <?php if (isset($blocks['2'])) { ?>
+                <div class="pi-zone-2">
+                    <?php foreach ($blocks['2'] as $block) {
+                        include $blockCenterTemplate;
+                    } ?>
+                </div>
+                <?php } ?>
+                <?php if (isset($blocks['3']) || isset($blocks['4'])) { ?>
+                <div class="row">
+                    <div class="col-md-6 pi-zone-3">
+                        <?php
+                        if (isset($blocks['3'])) { 
+                            foreach ($blocks['3'] as $block) {
+                                include $blockTemplate;
+                            }
+                        } 
+                        ?>
+                    </div>
+                    <div class="col-md-6 pi-zone-4">
+                        <?php
+                        if (isset($blocks['4'])) { 
+                            foreach ($blocks['4'] as $block) {
+                                include $blockTemplate;
+                            }
+                        } 
+                        ?>
+                    </div>
+                </div>
+                <?php } ?>
+
+                <!-- Module content starts -->
+                <?php if (!empty($content)) { ?>
+                <div class="pi-module-content">
+                    <?php echo $content; ?>
+                </div>
+                <?php } ?>
+                <!-- Module content ends -->
+
+                <?php if (isset($blocks['5']) || isset($blocks['6'])) { ?>
+                <div class="row">
+                    <div class="col-md-6 pi-zone-5">
+                        <?php
+                        if (isset($blocks['5'])) { 
+                            foreach ($blocks['5'] as $block) {
+                                include $blockTemplate;
+                            }
+                        } 
+                        ?>
+                    </div>
+                    <div class="col-md-6 pi-zone-6">
+                        <?php
+                        if (isset($blocks['6'])) { 
+                            foreach ($blocks['6'] as $block) {
+                                include $blockTemplate;
+                            }
+                        } 
+                        ?>
+                    </div>
+                </div>
+                <?php } ?>
+                <!-- Center bottom zone -->
+                <?php if (isset($blocks['7'])) { ?>
+                <div class="pi-zone-7">
+                    <?php foreach ($blocks['7'] as $block) {
+                        include $blockTemplate;
+                    } ?>
+                </div>
+                <?php } ?>
+            </div>
+
+            <!-- Right zone -->
+            <?php if (isset($blocks['8'])) { ?>
+            <div class="col-md-3 pi-zone-8">
+                <?php foreach ($blocks['8'] as $block) {
+                    include $blockTemplate;
+                } ?>
+            </div>
+            <?php } ?>
+        </div>
+        <!-- Bottom foot zone -->
+        <?php if (isset($blocks['99'])) { ?>
+        <div class="pi-zone-99">
+            <?php foreach ($blocks['99'] as $block) {
+                include $blockTemplate;
+            } ?>
+        </div>
+        <?php } ?>
+        </div>
+    </section>
+    <footer id="pi-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 footer-text">
+                    <h1><a title="پیامک یاب" href="http://www.payamakyab.com">پیامک یاب</a></h1>
+                    <p>پیامک یاب محلی است برای به اشتراک گذاشتن پیامک های مفیدی که میخواهیم در مناسبت های مختلف به دوستانمان ارسال کنیم. با این نرم افزار دیگر نگران یافتن پیامک دلخواه نیستید و می توانید بهترین و به روز ترین پیامک ها را به سرعت پیدا کنید. همچنین مطالعه چندین هزار پیامک باموضوعات مختلف ، می تواند اوقات فراغت شما را پر کند.</p>
+                    <div id="footer-icon" class="text-left">
+                        <ul class="list-unstyled list-inline">
+                            <li id="pi-social-sitemap"><a title="sitemap" href="http://www.payamakyab.com/sitemap.xml"><i class="fa fa-sitemap"></i></a></li>
+                            <li id="pi-social-android"><a rel="nofollow" title="پیامک یاب در فیسبوک" href="https://play.google.com/store/apps/details?id=com.rgn.payamakyab"><i class="fa fa-android"></i></a></li>
+                            <li id="pi-social-twitter"><a title="پیامک یاب در تویتر" href="https://www.twitter.com/payamakyab"><i class="fa fa-twitter-square"></i></a></li>
+                            <li id="pi-social-facebook"><a title="پیامک یاب در فیسبوک" href="https://www.facebook.com/payamakyab"><i class="fa fa-facebook-square"></i></a></li>
+                            <li id="pi-social-google"><a title="پیامک یاب در گوگل پلاس" href="https://plus.google.com/u/2/117762359491458504400"><i class="fa fa-google-plus-square"></i></a></li>
+                            <li id="pi-social-instagram"><a title="پیامک یاب در اینستاگرام" href="http://instagram.com/payamakyab"><i class="fa fa-instagram"></i></a></li>
+                            <li id="pi-social-rss"><a title="خوراک" href="http://www.payamakyab.com/feed/sms"><i class="fa fa-rss-square"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 footer-text">
+                    <h2>پیامک</h2>
+                    <p>وب سایت پیامک یاب با دارابودن بانک قوی پیامک ، به شما امکان میدهد در بین موضوعات مورد علاقه خود جستجو کرده و پیامک مورد نیاز خود دسترسی پیدا کنید.</p>
+                </div>
+                <div class="col-md-3 footer-text">
+                    <h2>نرم افزار</h2>
+                    <p>همچنین پیامک یاب با ارائه نرم افزار تلفن همراه اندروید ، امکان مشاهده و استفاده پیامک های مورد علاقه  شما را در تلفن همراه برای ارسال به دوستان و عزیزانتان در اختیار قرار می دهد.</p>
+                </div>
+                <div class="col-md-3 footer-text">
+                    <h2>ایرانی</h2>
+                    <p>پیامک یاب به عنوان سامانه مدیریت و ارسال پیامک و اس ام اس به طور کامل توسط مختصصین ایرانی پیاده سازی و اجرا شده است. و بخش های مختلف آن در اختیار عموم است</p>
+                </div>
+                <div class="col-md-3 footer-text">
+                    <h2>ارسال</h2>
+                    <p>شما میتوانید پیامک هایی که از نظر شما جذاب است با ارسال در وب سایت با دیگر کاربران به اشتراک بگذارید. این امکان هم از طریق وب سایت و هم نرم افزار موبایل در دسترس شما است.</p>
+                </div>
+                <div id="footer-copyright" class="col-md-12">
+                    <div class="col-md-6 col-sm-6 col-xs-6 text-right">تمام حقوق مطالب برای وب سایت <a title="پیامک یاب" href="http://www.payamakyab.com">پیامک یاب</a> محفوظ است.</div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 text-left">طراحی و توسعه <a title="فراگسترش" href="http://www.faragostaresh.com">فراگسترش</a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <?php echo $this->assemble('footScript', 4); ?>
+</body>
+</html>

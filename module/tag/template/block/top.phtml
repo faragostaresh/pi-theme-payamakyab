@@ -1,0 +1,16 @@
+<div class="tag-side-block">
+    <?php $i = 1;
+    foreach ($block['tags'] as $tag) { 
+       if($i < 8) {
+    ?>
+    <h2><a rel="tag" class="list-group-item" title="<?php echo $tag['term']; ?>" href="<?php echo Pi::url($this->url('sms', array('module' => 'sms', 'controller' => 'tag', 'slug' => urlencode($tag['term']))) , true); ?>"><?php echo $tag['term']; ?> <span class="badge"><?php echo _number($this->escape($tag['count'])); ?></span></a></h2>
+    <?php } elseif(8 <= $i &&  $i < 20) { ?>
+    <h3><a rel="tag" class="list-group-item" title="<?php echo $tag['term']; ?>" href="<?php echo Pi::url($this->url('sms', array('module' => 'sms', 'controller' => 'tag', 'slug' => urlencode($tag['term']))) , true); ?>"><?php echo $tag['term']; ?> <span class="badge"><?php echo _number($this->escape($tag['count'])); ?></span></a></h3>
+    <?php } elseif(20 <= $i &&  $i < 40) { ?>
+    <h4><a rel="tag" class="list-group-item" title="<?php echo $tag['term']; ?>" href="<?php echo Pi::url($this->url('sms', array('module' => 'sms', 'controller' => 'tag', 'slug' => urlencode($tag['term']))) , true); ?>"><?php echo $tag['term']; ?> <span class="badge"><?php echo _number($this->escape($tag['count'])); ?></span></a></h4>
+    <?php } elseif(40 <= $i &&  $i < 60) { ?>
+    <h5><a rel="tag" class="list-group-item" title="<?php echo $tag['term']; ?>" href="<?php echo Pi::url($this->url('sms', array('module' => 'sms', 'controller' => 'tag', 'slug' => urlencode($tag['term']))) , true); ?>"><?php echo $tag['term']; ?> <span class="badge"><?php echo _number($this->escape($tag['count'])); ?></span></a></h5>
+    <?php } else { ?>
+    <h6><a rel="tag" class="list-group-item" title="<?php echo $tag['term']; ?>" href="<?php echo Pi::url($this->url('sms', array('module' => 'sms', 'controller' => 'tag', 'slug' => urlencode($tag['term']))) , true); ?>"><?php echo $tag['term']; ?> <span class="badge"><?php echo _number($this->escape($tag['count'])); ?></span></a></h6>
+    <?php } $i++; } unset($i); ?>
+</div>
